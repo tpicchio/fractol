@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:51:53 by tpicchio          #+#    #+#             */
-/*   Updated: 2023/12/22 16:09:10 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:18:42 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,25 @@ int	main(int ac, char **av)
 {
 	t_fractal	fractal;
 
-	if ((ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
-		|| (ac == 4 && !ft_strncmp(av[1], "julia", 5)))
+	if ((ac == 2 && !ft_strncmp(av[1], "mandelbrot", 11))
+		|| (ac == 4 && !ft_strncmp(av[1], "julia", 6))
+		|| (ac == 2 && !ft_strncmp(av[1], "burningship", 12)))
 	{
 		fractal.name = av[1];
-		fractal.julia_x = ft_atodbl(av[2]);
-		fractal.julia_y = ft_atodbl(av[3]);
+		if (av[1][0] == 'j' && ft_valid_num(av[2]) && ft_valid_num(av[3]))
+		{
+			fractal.julia_x = ft_atodbl(av[2]);
+			fractal.julia_y = ft_atodbl(av[3]);
+		}
 		ft_fractal_init(&fractal);
-		ft_fractal_render(&fractal);
+		if (av[1][0] == 'm' || av[1][0] == 'j')
+			ft_fractal_render(&fractal, 1);
+		else
+			ft_render_burningship(&fractal, 1);
 		mlx_loop(fractal.mlx_conn);
 	}
 	else
-	{
-		ft_printf(2, "Input error");
-		exit(EXIT_FAILURE);
-	}
+		ft_printf(2, "\nAvailable fractal:\n-mandelbrot\n-julia [num][num]%s",
+			"\n-burningship\n\n");
 	return (0);
 }

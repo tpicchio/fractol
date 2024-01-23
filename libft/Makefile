@@ -72,7 +72,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(info )
 	$(AR) $(NAME) $(OBJS)
-	$(info ${BOLD}Creating  -> ${YELLOW}$(NAME)${NO_COLOR})
+	$(info ${BOLD}Created  -> ${YELLOW}$(NAME)${NO_COLOR})
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I../include

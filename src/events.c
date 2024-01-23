@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 13:00:24 by tpicchio          #+#    #+#             */
-/*   Updated: 2023/12/22 17:07:31 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:25:58 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,57 +21,103 @@ int	ft_close(t_fractal *fractal)
 	exit(EXIT_SUCCESS);
 }
 
-int	ft_key_handle(int keycode, t_fractal *fractal)
+static void	ft_arrow_detail_handle(int keycode, t_fractal *fractal)
 {
-	if (keycode == XK_Escape)
-		ft_close(fractal);
-	if (keycode == XK_Left)
+	if (keycode == XK_Left && fractal->shift_x > -3)
 		fractal->shift_x -= 0.1 * fractal->zoom;
-	else if (keycode == XK_Right)
+	else if (keycode == XK_Right && fractal->shift_x < 2)
 		fractal->shift_x += 0.1 * fractal->zoom;
-	else if (keycode == XK_Up)
-		fractal->shift_y -= 0.1 * fractal->zoom;
-	else if (keycode == XK_Down)
+	else if (keycode == XK_Up && fractal->shift_y < 3)
 		fractal->shift_y += 0.1 * fractal->zoom;
-	else if (keycode == XK_KP_Add || keycode == XK_plus)
+	else if (keycode == XK_Down && fractal->shift_y > -3)
+		fractal->shift_y -= 0.1 * fractal->zoom;
+	else if (keycode == XK_KP_Add && fractal->max_iter < 200)
 		fractal->max_iter += 10;
-	else if (keycode == XK_KP_Subtract || keycode == XK_minus)
+	else if (keycode == XK_KP_Subtract && fractal->max_iter > 10)
 		fractal->max_iter -= 10;
-	ft_fractal_render(fractal);
-	return (0);
 }
 
+static int	ft_letter_handle(int keycode, t_fractal *fractal)
+{
+	int	flag;
+
+	flag = 0;
+	if (keycode == XK_c)
+		return (1);
+	else if (keycode == XK_b && fractal->name[0] != 'b')
+	{
+		fractal->name = "burningship";
+		ft_data_init(fractal);
+	}
+	else if (keycode == XK_m && fractal->name[0] != 'm')
+	{
+		fractal->name = "mandelbrot";
+		ft_data_init(fractal);
+	}
+	else if (keycode == XK_j && fractal->name[0] != 'j')
+	{
+		fractal->name = "julia";
+		fractal->julia_x = -0.8;
+		fractal->julia_y = 0.156;
+		ft_data_init(fractal);
+	}
+	else if (keycode == XK_r)
+		ft_data_init(fractal);
+	return (flag);
+}
+
+int	ft_key_handle(int keycode, t_fractal *fractal)
+{
+	int	flag;
+
+	flag = 0;
+	if (keycode == XK_Escape)
+		ft_close(fractal);
+	if (keycode == XK_Left || keycode == XK_Right || keycode == XK_Up
+		|| keycode == XK_Down || keycode == XK_KP_Add
+		|| keycode == XK_KP_Subtract)
+		ft_arrow_detail_handle(keycode, fractal);
+	else if (keycode == XK_c || keycode == XK_b || keycode == XK_m
+		|| keycode == XK_j || keycode == XK_r)
+		flag = ft_letter_handle(keycode, fractal);
+	else if (keycode == XK_w && fractal->name[0] == 'j')
+		fractal->julia_y += 0.01;
+	else if (keycode == XK_a && fractal->name[0] == 'j')
+		fractal->julia_x -= 0.01;
+	else if (keycode == XK_s && fractal->name[0] == 'j')
+		fractal->julia_y -= 0.01;
+	else if (keycode == XK_d && fractal->name[0] == 'j')
+		fractal->julia_x += 0.01;
+	if (fractal->name[0] == 'j' || fractal->name[0] == 'm')
+		ft_fractal_render(fractal, flag);
+	else
+		ft_render_burningship(fractal, flag);
+	return (0);
+}
 
 int	ft_mouse_handle(int button, int x, int y, t_fractal *fractal)
 {
-	//zoom in and out based on mouse position
-	if (button == 5)
+	if (button == 5 && fractal->zoom < 2.000000)
 	{
 		fractal->zoom *= 1.1;
-		fractal->shift_x -= (ft_map(x, -2, +2, WIDTH) * fractal->zoom) / 10;
-		fractal->shift_y -= (ft_map(y, +2, -2, HEIGHT) * fractal->zoom) / 10;
+		fractal->shift_x -= (ft_map(x, -2, +2, DIM) * fractal->zoom) / 10;
+		if (fractal->name[0] == 'j' || fractal->name[0] == 'm')
+			fractal->shift_y -= (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
+		else
+			fractal->shift_y += (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
 	}
-	else if (button == 4)
+	else if (button == 4 && fractal->zoom > 0.00000000000005)
 	{
 		fractal->zoom /= 1.1;
-		fractal->shift_x += (ft_map(x, -2, +2, WIDTH) * fractal->zoom) / 10;
-		fractal->shift_y += (ft_map(y, +2, -2, HEIGHT) * fractal->zoom) / 10;
+		fractal->shift_x += (ft_map(x, -2, +2, DIM) * fractal->zoom) / 10;
+		if (fractal->name[0] == 'j' || fractal->name[0] == 'm')
+			fractal->shift_y += (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
+		else
+			fractal->shift_y -= (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
 	}
-	else if (button == 1)
-		fractal->is_dragging = 1;
-	else if (button == ButtonRelease)
-		fractal->is_dragging = 0;
-	ft_fractal_render(fractal);
-	return (0);
-}
-
-int	ft_mouse_move(int x, int y, t_fractal *fractal)
-{
-	if (fractal->is_dragging)
-	{
-		fractal->shift_x += (ft_map(x, -2, +2, WIDTH) * fractal->zoom) / 10;
-		fractal->shift_y += (ft_map(y, +2, -2, HEIGHT) * fractal->zoom) / 10;
-		ft_fractal_render(fractal);
-	}
+	if (fractal->name[0] == 'j' || fractal->name[0] == 'm')
+		ft_fractal_render(fractal, 0);
+	else
+		ft_render_burningship(fractal, 0);
 	return (0);
 }
