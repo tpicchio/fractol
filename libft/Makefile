@@ -72,7 +72,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(info )
 	$(AR) $(NAME) $(OBJS)
-	$(info ${BOLD}Created  -> ${YELLOW}$(NAME)${NO_COLOR})
+	$(info ${BOLD}Created  -> ${BLUE}$(NAME)${NO_COLOR})
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I../include
@@ -88,6 +88,6 @@ re: fclean all
 .PHONY: all clean fclean re bonus
 .SILENT:
 
-YELLOW		:= ${shell tput setaf 3}
+BLUE		:= ${shell tput setaf 4}
 NO_COLOR	:= ${shell tput sgr0}
 BOLD		:= ${shell tput bold}
