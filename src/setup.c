@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:52:01 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/17 15:31:13 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:09:52 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	ft_data_init(t_fractal *fractal)
 	fractal->shift_x = 0.0;
 	fractal->shift_y = 0.0;
 	fractal->zoom = 1.0;
+	if (fractal->init == 0)
+	{
+		fractal->julia_x = -0.8;
+		fractal->julia_y = 0.156;
+		fractal->init = 1;
+	}
 }
 
 static void	ft_events_init(t_fractal *fractal)

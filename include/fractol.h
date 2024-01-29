@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:51:28 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/17 14:31:26 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:06:28 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_fractal
 	double	zoom;
 	double	julia_x;
 	double	julia_y;
+	int		init;
 }	t_fractal;
 
 typedef struct s_complex

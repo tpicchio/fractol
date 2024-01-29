@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:51:53 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/17 16:18:42 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:08:48 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ int	main(int ac, char **av)
 		|| (ac == 2 && !ft_strncmp(av[1], "burningship", 12)))
 	{
 		fractal.name = av[1];
+		fractal.init = 0;
 		if (av[1][0] == 'j' && ft_valid_num(av[2]) && ft_valid_num(av[3]))
 		{
 			fractal.julia_x = ft_atodbl(av[2]);
 			fractal.julia_y = ft_atodbl(av[3]);
+			fractal.init = 1;
 		}
 		ft_fractal_init(&fractal);
 		if (av[1][0] == 'm' || av[1][0] == 'j')

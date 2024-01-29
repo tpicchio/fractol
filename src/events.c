@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 13:00:24 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/23 12:25:58 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:09:13 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	ft_arrow_detail_handle(int keycode, t_fractal *fractal)
 		fractal->shift_y += 0.1 * fractal->zoom;
 	else if (keycode == XK_Down && fractal->shift_y > -3)
 		fractal->shift_y -= 0.1 * fractal->zoom;
-	else if (keycode == XK_KP_Add && fractal->max_iter < 200)
+	else if (keycode == XK_KP_Add && fractal->max_iter < 100)
 		fractal->max_iter += 10;
 	else if (keycode == XK_KP_Subtract && fractal->max_iter > 10)
 		fractal->max_iter -= 10;
@@ -57,8 +57,6 @@ static int	ft_letter_handle(int keycode, t_fractal *fractal)
 	else if (keycode == XK_j && fractal->name[0] != 'j')
 	{
 		fractal->name = "julia";
-		fractal->julia_x = -0.8;
-		fractal->julia_y = 0.156;
 		ft_data_init(fractal);
 	}
 	else if (keycode == XK_r)
@@ -106,7 +104,7 @@ int	ft_mouse_handle(int button, int x, int y, t_fractal *fractal)
 		else
 			fractal->shift_y += (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
 	}
-	else if (button == 4 && fractal->zoom > 0.00000000000005)
+	else if (button == 4 && fractal->zoom > 0.0000000000005)
 	{
 		fractal->zoom /= 1.1;
 		fractal->shift_x += (ft_map(x, -2, +2, DIM) * fractal->zoom) / 10;
