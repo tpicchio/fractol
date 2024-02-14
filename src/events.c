@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 13:00:24 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/29 10:09:13 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:48:39 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	ft_arrow_detail_handle(int keycode, t_fractal *fractal)
 		fractal->shift_y += 0.1 * fractal->zoom;
 	else if (keycode == XK_Down && fractal->shift_y > -3)
 		fractal->shift_y -= 0.1 * fractal->zoom;
-	else if (keycode == XK_KP_Add && fractal->max_iter < 100)
+	else if (keycode == XK_KP_Add && fractal->max_iter < 1000)
 		fractal->max_iter += 10;
 	else if (keycode == XK_KP_Subtract && fractal->max_iter > 10)
 		fractal->max_iter -= 10;
@@ -104,7 +104,7 @@ int	ft_mouse_handle(int button, int x, int y, t_fractal *fractal)
 		else
 			fractal->shift_y += (ft_map(y, +2, -2, DIM) * fractal->zoom) / 10;
 	}
-	else if (button == 4 && fractal->zoom > 0.0000000000005)
+	else if (button == 4)
 	{
 		fractal->zoom /= 1.1;
 		fractal->shift_x += (ft_map(x, -2, +2, DIM) * fractal->zoom) / 10;

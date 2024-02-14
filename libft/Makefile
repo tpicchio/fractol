@@ -70,9 +70,9 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(info )
-	$(AR) $(NAME) $(OBJS)
-	$(info ${BOLD}Created  -> ${BLUE}$(NAME)${NO_COLOR})
+	$(AR) $(NAME) $(OBJS) 
+	echo
+	echo "${BOLD}Created  -> ${BLUE}$(NAME)${NO_COLOR}"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I../include
@@ -86,8 +86,9 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
+
 .SILENT:
 
-BLUE		:= ${shell tput setaf 4}
-NO_COLOR	:= ${shell tput sgr0}
-BOLD		:= ${shell tput bold}
+BLUE = \033[1;34m
+NO_COLOR = \033[0m
+BOLD = \033[1m

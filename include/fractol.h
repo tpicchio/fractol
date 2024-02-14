@@ -6,7 +6,7 @@
 /*   By: tpicchio <tpicchio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 11:51:28 by tpicchio          #+#    #+#             */
-/*   Updated: 2024/01/29 10:06:28 by tpicchio         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:55:07 by tpicchio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <X11/keysym.h>
 # include "mlx.h"
 
-# define DIM			 500
+#ifndef DIM
+# define DIM			 1000
+#endif
 
 # define BLACK           0x000000
 # define WHITE           0xFFFFFF
